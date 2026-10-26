@@ -230,6 +230,188 @@ button:active{transform:scale(.97)}
 @media(max-width:760px){.app{display:flex;flex-direction:column}aside{max-height:none;min-height:230px}#list{max-height:180px}main{padding:1rem .75rem 2rem}.paper{border-radius:16px}header{align-items:flex-start}}
 @media(prefers-reduced-motion:reduce){.item,.att,.paper{animation:none!important}button,.item,.att{transition:none!important}}
 
+/* 🎀 DREAMY PINK DIARY ANIMATIONS */
+:root {
+  --pink: #f4a8c8;
+  --deep-pink: #df6fa4;
+  --lavender: #b9a7f7;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 15%, #ffc6e0a6, transparent 32%),
+    radial-gradient(circle at 88% 20%, #c8b8ff99, transparent 30%),
+    linear-gradient(135deg, #fff0f7, #f7f0ff, #fff7fb);
+  background-attachment: fixed;
+}
+
+/* Floating decorative hearts and stars */
+body::before,
+body::after {
+  content: "✦  ♡  ✧";
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  color: #cd7eb740;
+  font-size: 32px;
+  letter-spacing: 18px;
+  animation: floatDreamy 12s ease-in-out infinite alternate;
+}
+
+body::before {
+  top: 12%;
+  left: 3%;
+}
+
+body::after {
+  content: "♡  ✧  ✦";
+  bottom: 10%;
+  right: 2%;
+  animation-delay: -5s;
+}
+
+/* Buttons: glow + lift + click bounce */
+button,
+.btn,
+input[type="button"],
+input[type="submit"],
+[role="button"] {
+  border-radius: 16px;
+  transition: transform .22s ease,
+              box-shadow .25s ease,
+              filter .25s ease;
+  box-shadow: 0 7px 18px #db69a02e;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:hover,
+.btn:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+[role="button"]:hover {
+  transform: translateY(-3px) scale(1.025);
+  box-shadow:
+    0 12px 26px #db69a04d,
+    0 0 0 4px #f4a8c821;
+  filter: saturate(1.08);
+}
+
+button:active,
+.btn:active,
+input[type="button"]:active,
+input[type="submit"]:active,
+[role="button"]:active {
+  transform: scale(.96);
+}
+
+/* Gradient button look */
+button,
+.btn,
+input[type="button"],
+input[type="submit"] {
+  background-image: linear-gradient(120deg, #f7a8cb, #c3aaf8);
+  color: white;
+}
+
+/* Soft inputs */
+input,
+textarea,
+select {
+  border-radius: 14px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #d98bb8;
+  box-shadow: 0 0 0 4px #f4a8c82e;
+}
+
+/* Diary card hover animation */
+.card,
+.diary-card,
+.entry,
+.note,
+article {
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+
+.card:hover,
+.diary-card:hover,
+.entry:hover,
+.note:hover,
+article:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px #7a568b21;
+}
+
+::selection {
+  background: #f6c0dc;
+  color: #51364f;
+}
+
+@keyframes floatDreamy {
+  from { transform: translate(0, 0) rotate(-5deg); }
+  to { transform: translate(12px, -18px) rotate(7deg); }
+}
+
+@keyframes diaryEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main,
+.main {
+  animation: diaryEnter .65s ease both;
+}
+
+/* Mobile polish */
+@media (max-width: 640px) {
+  body::before,
+  body::after {
+    font-size: 22px;
+    letter-spacing: 8px;
+  }
+
+  button,
+  .btn,
+  input[type="button"],
+  input[type="submit"] {
+    min-height: 42px;
+  }
+
+  .card:hover,
+  .diary-card:hover,
+  .entry:hover,
+  .note:hover,
+  article:hover {
+    transform: none;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+                             }
+  
 </style>
 </head>
 <body>
