@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff0f7">
+<title>Moments — Premium Memory Journal</title>
+<style>
+:root{color-scheme:light;--bg:#fff3f8;--paper:rgba(255,255,255,.92);--ink:#432d45;--muted:#705c75;--accent:#9f2868;--accent2:#8f78cf;--line:#e8cfe2;--shadow:0 18px 50px rgba(105,58,111,.15);--glow:rgba(236,165,202,.28)}
+[data-theme="dark"]{color-scheme:dark;--bg:#201829;--paper:rgba(48,35,57,.94);--ink:#fff0fb;--muted:#c2accb;--accent:#ed91c0;--accent2:#b9a6ff;--line:#58425f;--shadow:0 18px 50px rgba(0,0,0,.28);--glow:rgba(237,145,192,.2)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 8% 10%,#ffd1e7b0,transparent 30%),radial-gradient(circle at 92% 15%,#d7ccffad,transparent 28%),linear-gradient(135deg,var(--bg),var(--bg));background-attachment:fixed;color:var(--ink);font:16px/1.6 ui-rounded,"Trebuchet MS",system-ui,sans-serif;transition:background .3s,color .3s}
+body:before,body:after{content:"✦  ♡  ✧";position:fixed;z-index:-0;pointer-events:none;color:#d77eae40;font-size:clamp(24px,3vw,38px);letter-spacing:14px;animation:floaty 12s ease-in-out infinite alternate}
+body:before{top:12%;left:2%}body:after{content:"♡  ✧  ✦";bottom:8%;right:2%;animation-delay:-5s}
+button,input,select,textarea{font:inherit;color:inherit}
+button{border:1px solid var(--line);border-radius:15px;padding:.55rem .9rem;cursor:pointer;background:var(--paper);transition:transform .22s ease,box-shadow .25s ease,filter .25s ease,border-color .25s ease;-webkit-tap-highlight-color:transparent}
+button:hover{transform:translateY(-2px);box-shadow:0 10px 24px var(--glow);border-color:var(--accent)}
+button:active{transform:scale(.96)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[contenteditable]:focus-visible{outline:3px solid var(--accent2);outline-offset:3px}
+button.primary{border:0;color:white;background:linear-gradient(120deg,var(--accent),var(--accent2));box-shadow:0 8px 20px var(--glow)}
+button.primary:hover{box-shadow:0 12px 28px var(--glow);filter:saturate(1.12)}
+input,select,textarea{background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:.65rem .8rem;width:100%;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--glow);outline:0}
+h1,h2,h3,p{margin-top:0}h1,h2,h3{line-height:1.25}
+.app{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh;position:relative;z-index:1}
+aside{display:flex;flex-direction:column;min-height:0;max-height:100vh;position:sticky;top:0;border-right:1px solid var(--line);background:#fff9fd80;backdrop-filter:blur(18px)}
+[data-theme="dark"] aside{background:#241a2dba}
+.side-top{padding:1rem;display:grid;gap:.7rem;border-bottom:1px solid var(--line)}
+.row{display:flex;gap:.55rem;flex-wrap:wrap;align-items:center}
+.row>*{max-width:100%}
+#list{overflow:auto;flex:1;padding:.65rem}
+.item{padding:.8rem;border:1px solid transparent;border-radius:16px;cursor:pointer;margin-bottom:.4rem;transition:background .2s,transform .2s,border-color .2s;animation:fadein .3s ease both}
+.item:hover,.item.on{background:var(--paper);border-color:var(--line);box-shadow:var(--shadow)}
+.item:hover{transform:translateX(3px)}
+.item-title{font-weight:750;overflow-wrap:anywhere}
+.meta{font-size:.82rem;color:var(--muted)}
+main{min-width:0;overflow:auto;padding:1.25rem clamp(.8rem,4vw,3rem) 3rem}
+header{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;max-width:850px;margin:0 auto 1rem}
+.brand{font-size:1.75rem;letter-spacing:-.055em;font-weight:900;background:linear-gradient(110deg,#d95d9c,#9b82ec);-webkit-background-clip:text;background-clip:text;color:transparent;margin:0}
+.tagline{font-size:.85rem;color:var(--muted)}
+#otd{max-width:850px;margin:0 auto .8rem}
+.otd{background:linear-gradient(110deg,#ffe0efb5,#e9e1ffb5);border:1px solid var(--line);border-radius:15px;padding:.7rem 1rem;display:flex;justify-content:space-between;gap:.5rem;align-items:center}
+[data-theme="dark"] .otd{background:linear-gradient(110deg,#56334b,#403459)}
+.paper{max-width:850px;margin:0 auto;background:var(--paper);border:1px solid #ffffffa8;border-radius:25px;padding:clamp(1rem,4vw,2.4rem);box-shadow:var(--shadow);backdrop-filter:blur(18px);position:relative;overflow:hidden;animation:enter .55s cubic-bezier(.2,.75,.25,1) both}
+.paper:before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--accent),#ffd0e7,var(--accent2))}
+#title{font-size:clamp(1.5rem,4vw,2rem);font-weight:800;letter-spacing:-.04em;border:0;background:transparent;padding:.25rem 0;font-family:inherit}
+#title:focus{box-shadow:none}
+.moods button{border:1px solid transparent;background:transparent;font-size:1.4rem;padding:.25rem .4rem}
+.moods button:hover,.moods button.on{background:#fce0ef;border-color:#f3bdd8;transform:translateY(-2px) scale(1.08)}
+[data-theme="dark"] .moods button:hover,[data-theme="dark"] .moods button.on{background:#58384e}
+.toolbar{padding:.55rem;background:#fceaf4a8;border:1px solid var(--line);border-radius:17px;margin-top:.8rem}
+[data-theme="dark"] .toolbar{background:#39283f}
+.toolbar button{padding:.38rem .7rem;min-width:38px}
+#body{min-height:42vh;outline:none;margin-top:1rem;font-size:1.05rem;overflow-wrap:anywhere;padding:.55rem;border-radius:12px;transition:background .2s}
+#body:focus{background:linear-gradient(90deg,var(--glow),transparent 75%)}
+#body:empty:before{content:attr(data-ph);color:var(--muted)}
+#body blockquote{border-left:4px solid var(--accent2);padding-left:1rem;color:var(--muted)}
+#body h2{margin:.8rem 0 .4rem}
+.section-title{font-size:1.02rem;margin:1.4rem 0 .5rem}
+.drop{border:2px dashed #e6b7d4;border-radius:17px;padding:1rem;text-align:center;color:var(--muted);margin-top:.5rem;background:#fff7fb85;transition:border-color .2s,background .2s,transform .2s}
+[data-theme="dark"] .drop{background:#2c2034}
+.drop.over{border-color:var(--accent);background:var(--glow);transform:scale(1.01)}
+.atts{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:.7rem;margin-top:.7rem}
+.att{border:1px solid var(--line);border-radius:15px;padding:.5rem;font-size:.8rem;background:var(--bg);overflow:hidden;animation:enter .25s ease both;transition:transform .2s,box-shadow .2s}
+.att:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.att img,.att video{width:100%;max-height:220px;object-fit:contain;border-radius:10px;display:block}
+.att audio{width:100%}.att a{color:var(--accent);font-weight:700}
+.bottom-actions{justify-content:space-between;margin-top:1.5rem}
+.toast{position:fixed;bottom:1rem;left:50%;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:.65rem 1.1rem;border-radius:999px;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:90vw;z-index:20;box-shadow:var(--shadow)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+dialog{border:1px solid var(--line);border-radius:22px;background:var(--paper);color:var(--ink);width:min(560px,calc(100vw - 2rem));box-shadow:var(--shadow);padding:0}
+dialog::backdrop{background:#20142980;backdrop-filter:blur(5px)}
+.paste-card{padding:1.25rem}.paste-card textarea{resize:vertical}
+.focus aside,.focus header,.focus #otd{display:none}.focus .app{grid-template-columns:1fr}.focus main{padding-top:2rem}
+
+/* Premium scrapbook polish */
+body{background-image:radial-gradient(ellipse at 8% 4%,rgba(236,165,202,.22),transparent 32%),radial-gradient(ellipse at 94% 18%,rgba(143,120,207,.16),transparent 30%)}
+.brand{letter-spacing:-.045em}
+.paper{backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.88);box-shadow:0 24px 70px rgba(89,48,100,.13)}
+button{transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+button:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(117,62,111,.15)}
+button.primary{background:linear-gradient(120deg,#a52d70,#7958b9);box-shadow:0 8px 22px rgba(159,40,104,.24)}
+#body{min-height:300px;line-height:1.9}
+#body:focus{outline:none}
+.toolbar{position:sticky;top:8px;z-index:4;padding:9px;background:rgba(255,243,248,.9);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:17px}
+[data-theme="dark"] .toolbar{background:rgba(40,29,49,.92)}
+.inline-memory{display:block;max-width:min(100%,620px);margin:1.35rem auto;padding:10px 10px 13px;background:#fff;border:1px solid #f0dce9;border-radius:18px;box-shadow:0 12px 30px rgba(90,55,100,.16);overflow:hidden;animation:enter .3s ease both}
+.inline-memory img{display:block;width:100%;max-height:520px;object-fit:contain;background:#f8f0f7;border-radius:12px}
+.inline-memory video{display:block;width:100%;max-height:480px;border-radius:12px;background:#21182a}
+.inline-memory audio{display:block;width:100%;margin:8px 0}
+.inline-memory .memory-caption{font:italic .84rem/1.5 Georgia,serif;color:#765f79;padding:9px 5px 0}
+.inline-memory .memory-type{font-size:.72rem;text-transform:uppercase;letter-spacing:.13em;color:#9f2868;padding:2px 5px 5px;font-weight:800}
+.inline-memory.audio-memory{background:linear-gradient(135deg,#fff7fc,#f0eaff)}
+.inline-memory.video-memory{background:#fff}
+.inline-memory .inline-placeholder{color:#705c75;font-size:.85rem;padding:18px;text-align:center}
+#inlineFile{display:none}
+.inline-tools{display:flex;gap:7px;flex-wrap:wrap;margin:.65rem 0 1rem;padding:12px;border-radius:18px;background:linear-gradient(115deg,#fff1f8,#f2edff);border:1px solid var(--line)}
+.inline-tools .hint{font-size:.8rem;color:var(--muted);align-self:center;margin-left:auto}
+[data-theme="dark"] .inline-tools{background:linear-gradient(115deg,#342337,#29243d)}
+@media(max-width:600px){.inline-tools .hint{width:100%;margin:0}.inline-memory{padding:7px;border-radius:15px}.inline-memory img{max-height:360px}}
+\n::selection{background:#f6c0dc;color:#51364f}
+@keyframes floaty{from{transform:translate(0,0) rotate(-5deg)}to{transform:translate(12px,-18px) rotate(7deg)}}
+@keyframes enter{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:800px){.app{display:flex;flex-direction:column}aside{position:relative;max-height:none;min-height:0;border-right:0;border-bottom:1px solid var(--line)}#list{max-height:230px}main{padding:1rem .7rem 2rem}.paper{border-radius:20px}header{align-items:flex-start}.side-top{padding:.8rem}.bottom-actions{align-items:stretch}.bottom-actions>.row{width:100%}#save{flex:1}}
+@media(max-width:440px){.brand{font-size:1.5rem}.paper{padding:1rem}.toolbar{gap:.35rem}button{padding:.5rem .7rem}.bottom-actions .row button{flex:1 1 auto}#date,#time{flex:1;min-width:0!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<aside>
+  <div class="side-top">
+    <div><div class="brand">✦ Moments</div><div class="tagline">A little home for your memories ♡</div></div>
+    <input id="q" placeholder="Search memories, tags, dates…" aria-label="Search memories">
+    <div class="row">
+      <select id="filter" aria-label="Filter entries"><option value="all">All memories</option><option value="fav">Favorites</option><option value="pin">Pinned</option></select>
+      <select id="sort" aria-label="Sort entries"><option value="new">Newest</option><option value="old">Oldest</option><option value="edit">Recently edited</option></select>
+    </div>
+    <div class="row"><button id="newBtn" class="primary">＋ New entry</button><button id="todayBtn">♡ Today</button></div>
+    <div class="meta" id="stats"></div>
+    <button id="zipBtn">⬇ Export diary backup</button>
+  </div>
+  <div id="list" aria-label="Diary entries"></div>
+</aside>
+<main>
+<header>
+  <div><h1 class="brand">Your little world ✨</h1><div class="meta" id="clock"></div></div>
+  <div class="row"><button id="focusBtn">⛶ Focus</button><button id="theme">◐ Theme</button></div>
+</header>
+<div id="otd"></div>
+<section class="paper" id="editor">
+  <div class="row" style="justify-content:space-between"><span class="meta" id="counts"></span><span class="meta" id="saveState" aria-live="polite">Ready when you are ♡</span></div>
+  <input id="title" placeholder="Give this memory a title…" aria-label="Entry title">
+  <div class="row" style="margin-top:.6rem">
+    <input type="date" id="date" style="width:auto" aria-label="Entry date">
+    <input type="time" id="time" style="width:auto" aria-label="Entry time">
+    <input id="tags" placeholder="tags, separated by commas" style="flex:1;min-width:160px" aria-label="Entry tags">
+  </div>
+  <div class="row moods" id="moods" style="margin-top:.6rem" aria-label="Choose a mood"></div>
+  <div class="row toolbar" aria-label="Text formatting">
+    <button data-cmd="bold" aria-label="Bold"><b>B</b></button>
+    <button data-cmd="italic" aria-label="Italic"><i>I</i></button>
+    <button data-cmd="underline" aria-label="Underline"><u>U</u></button>
+    <button data-cmd="formatBlock" data-val="h2" aria-label="Heading">H</button>
+    <button data-cmd="insertUnorderedList">• List</button>
+    <button data-cmd="formatBlock" data-val="blockquote">❝ Quote</button>
+    <button id="prompt">✍ Writing prompt</button>
+    <button id="pasteBtn">↧ Paste text</button>
+  </div>
+  <div class="inline-tools" aria-label="Insert a moment into your writing">
+    <button type="button" id="inlinePhoto">▧ Insert photo</button>
+    <button type="button" id="inlineAudio">♫ Insert audio</button>
+    <button type="button" id="inlineVideo">▷ Insert video</button>
+    <span class="hint">Add a memory between paragraphs, then keep writing ↓</span>
+  </div>
+  <div id="body" contenteditable="true" data-ph="Write freely. Your memories belong here… ♡" aria-label="Write your diary entry"></div>
+  <h3 class="section-title">📎 Memories & media <span class="meta" id="attCount"></span></h3>
+  <div class="drop" id="drop">Drop photos, audio or video here, or <button id="chooseBtn">＋ Choose files</button><div class="meta">Up to 15 photos, 15 audio files and 5 videos per entry</div></div>
+  <div class="atts" id="atts"></div>
+  <div class="row bottom-actions">
+    <div class="row"><button id="fav">☆ Favorite</button><button id="pin">Pin</button><button id="dup">Duplicate</button><button id="txt">⬇ TXT</button><button id="md">⬇ Markdown</button><button id="htmlBtn">⬇ HTML</button><button id="print">⎙ Print</button><button id="del">Delete</button></div>
+    <button class="primary" id="save">✓ Save</button>
+  </div>
+</section>
+</main>
+</div>
+<input type="file" id="file" multiple accept="image/*,audio/*,video/*" aria-label="Choose media files" hidden>
+<input type="file" id="inlineFile" accept="image/*,audio/*,video/*" aria-label="Insert media at writing cursor">
+<dialog id="pasteDialog" aria-labelledby="pasteTitle"><form method="dialog" class="paste-card"><h2 id="pasteTitle">Add text to your memory ♡</h2><p class="meta">Paste text you copied from ChatGPT or anywhere else.</p><textarea id="pasteText" rows="8" placeholder="Paste your text here…" style="width:100%;margin:.5rem 0 1rem"></textarea><div class="row" style="justify-content:flex-end"><button value="cancel">Cancel</button><button id="insertPaste" class="primary" value="insert">Insert text</button></div></form></dialog>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s), KEY='moments.v1', MAX_PHOTOS=15, MAX_AUDIO=15, MAX_VIDEO=5, MAXSIZE=60*1024*1024;
+const MOODS=['😊','😌','🥰','🤔','😢','😠','😴','🎉'];
+const PROMPTS=['What made you smile today?','Describe a small moment you almost missed.','What are you grateful for right now?','Write a note to yourself one year from now.','What did you learn this week?'];
+let entries=[];try{const stored=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(stored))entries=stored.filter(e=>e&&typeof e.id==='string').map(e=>({...e,title:String(e.title||''),body:String(e.body||''),date:String(e.date||new Date().toISOString().slice(0,10)),time:String(e.time||'00:00'),mood:String(e.mood||''),tags:Array.isArray(e.tags)?e.tags:[],atts:Array.isArray(e.atts)?e.atts:[],fav:Boolean(e.fav),pin:Boolean(e.pin),updated:Number(e.updated)||Date.now()}));}catch{entries=[]}
+let cur=null,dirty=false,timer=null,attachmentUrls=[],inlineUrls=[],savedRange=null;
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const localDate=d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const hm=()=>new Date().toTimeString().slice(0,5);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const plain=h=>new DOMParser().parseFromString(String(h).replace(/<br\s*\/?>|<\/(div|p|li|h2|h3|blockquote)>/gi,'\n'),'text/html').body.textContent.replace(/\n{3,}/g,'\n\n').trim();
+const latest=()=>[...entries].sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time))[0];
+const setState=s=>$('#saveState').textContent=s;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t.h);t.h=setTimeout(()=>t.classList.remove('show'),2600)}
+// Media uses the same IndexedDB store as the previous Moments version.
+const dbp=new Promise((res,rej)=>{if(!('indexedDB'in window)){rej(new Error('IndexedDB unavailable'));return}const r=indexedDB.open('moments',1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('media'))r.result.createObjectStore('media',{keyPath:'id'})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+const run=(mode,fn)=>dbp.then(d=>new Promise((res,rej)=>{const t=d.transaction('media',mode),q=fn(t.objectStore('media'));t.oncomplete=()=>res(q.result);t.onerror=t.onabort=()=>rej(t.error)}));
+const putMedia=m=>run('readwrite',s=>s.put(m)),getMedia=id=>run('readonly',s=>s.get(id)),delMedia=id=>run('readwrite',s=>s.delete(id));
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(entries));setState('Saved '+hm()+' ✓')}catch(err){setState('⚠ Could not save');toast('Storage is full. Export a backup.');console.error(err)}renderList()}
+function commit(){clearTimeout(timer);if(!cur||!dirty)return;Object.assign(cur,{title:$('#title').value.trim(),date:$('#date').value||cur.date,time:$('#time').value||cur.time,body:$('#body').innerHTML,tags:$('#tags').value.split(',').map(s=>s.trim()).filter(Boolean),updated:Date.now()});dirty=false;persist()}
+function edit(){if(!cur)return;dirty=true;setState('Saving…');updateCounts();clearTimeout(timer);timer=setTimeout(commit,600)}
+function open(id){cur=entries.find(e=>e.id===id);if(!cur)return;$('#title').value=cur.title;$('#date').value=cur.date;$('#time').value=cur.time;$('#tags').value=cur.tags.join(', ');$('#body').innerHTML=cur.body;dirty=false;renderMoods();renderBtns();renderAtts();renderInlineMedia();updateCounts();renderList();setState('Memory opened ♡')}
+function newEntry(date){commit();const n=new Date(),e={id:uid(),title:'',body:'',date:date||localDate(n),time:hm(),mood:'',tags:[],fav:false,pin:false,atts:[],updated:Date.now()};entries.push(e);persist();open(e.id);$('#title').focus()}
+async function duplicateEntry(){if(!cur)return;commit();const source=cur,n={...source,id:uid(),title:(source.title||'Untitled')+' (copy)',tags:[...source.tags],atts:[],updated:Date.now()};for(const id of source.atts){const m=await getMedia(id).catch(()=>null);if(m){const nid=uid();await putMedia({...m,id:nid});n.atts.push(nid)}}entries.push(n);persist();open(n.id);toast('Memory duplicated ♡')}
+async function deleteEntry(){if(!cur||!confirm('Delete this memory permanently? Its attachments will be deleted too.'))return;clearTimeout(timer);dirty=false;for(const id of cur.atts)await delMedia(id).catch(()=>{});entries=entries.filter(e=>e.id!==cur.id);cur=null;persist();entries.length?open(latest().id):newEntry();toast('Memory deleted')}
+function renderList(){const q=$('#q').value.toLowerCase(),f=$('#filter').value,s=$('#sort').value;const L=entries.filter(e=>(f==='all'||(f==='fav'&&e.fav)||(f==='pin'&&e.pin))&&(!q||[e.title,plain(e.body),e.tags.join(' '),e.date].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.pin-a.pin)||(s==='old'?(a.date+a.time).localeCompare(b.date+b.time):s==='edit'?b.updated-a.updated:(b.date+b.time).localeCompare(a.date+a.time)));$('#list').innerHTML=L.length?'':'<p class="meta" style="padding:1rem">No memories yet. Start with one little moment ✍️</p>';for(const e of L){const d=document.createElement('div');d.className='item'+(cur&&cur.id===e.id?' on':'');d.innerHTML=`<div class="item-title">${e.pin?'📌 ':''}${e.fav?'★ ':''}${esc(e.title||'Untitled memory')}</div><div class="meta">${esc(e.date)} ${e.mood} ${esc(plain(e.body).slice(0,60))}</div>`;d.onclick=()=>{commit();open(e.id)};$('#list').append(d)}const words=entries.reduce((n,e)=>n+plain(e.body).split(/\s+/).filter(Boolean).length,0);$('#stats').textContent=`${entries.length} memories · ${words.toLocaleString()} words · ${entries.filter(e=>e.fav).length} favorites`;const t=localDate(new Date()),old=entries.filter(e=>e.date.slice(5)===t.slice(5)&&e.date.slice(0,4)!==t.slice(0,4));$('#otd').innerHTML=old.length?`<div class="otd"><span>♡ On this day: ${old.length} earlier memor${old.length>1?'ies':'y'}</span><button id="otdOpen">Open memory</button></div>`:'';if(old.length)$('#otdOpen').onclick=()=>{commit();open(old[0].id)}}
+function renderMoods(){$('#moods').innerHTML=MOODS.map(m=>`<button type="button" class="${cur.mood===m?'on':''}" data-m="${m}" aria-label="Mood ${m}">${m}</button>`).join('')}
+function renderBtns(){$('#fav').textContent=cur.fav?'★ Favorited':'☆ Favorite';$('#pin').textContent=cur.pin?'📌 Pinned':'Pin'}
+function updateCounts(){const t=$('#body').innerText.trim();$('#counts').textContent=`${t?t.split(/\s+/).length:0} words · ${t.length} characters`}
+async function renderAtts(){attachmentUrls.forEach(u=>URL.revokeObjectURL(u));attachmentUrls=[];const ref=cur;if(!ref){$('#atts').replaceChildren();$('#attCount').textContent='';return}const ids=[...ref.atts],totals=await Promise.all(ids.map(id=>getMedia(id).catch(()=>null)));if(ref!==cur)return;const photos=totals.filter(m=>m&&m.type.startsWith('image/')).length,audios=totals.filter(m=>m&&m.type.startsWith('audio/')).length,videos=totals.filter(m=>m&&m.type.startsWith('video/')).length;$('#attCount').textContent=`Photos ${photos}/${MAX_PHOTOS} · Audio ${audios}/${MAX_AUDIO} · Video ${videos}/${MAX_VIDEO}`;const box=$('#atts');box.innerHTML='';for(const id of ids){const m=await getMedia(id).catch(()=>null);if(ref!==cur)return;const d=document.createElement('div');d.className='att';if(!m){d.textContent='Missing file';box.append(d);continue}const u=URL.createObjectURL(m.blob);attachmentUrls.push(u);const media=m.type.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:m.type.startsWith('video/')?`<video src="${u}" controls preload="metadata"></video>`:`<audio src="${u}" controls></audio>`;d.innerHTML=`${media}<div class="meta">${esc(m.name)}</div><div class="row"><a href="${u}" download="${esc(m.name)}">Download</a><button data-rm="${id}">Remove</button></div>`;box.append(d)}}
+async function renderInlineMedia(){inlineUrls.forEach(u=>URL.revokeObjectURL(u));inlineUrls=[];const ref=cur;if(!ref)return;const nodes=[...$('#body').querySelectorAll('[data-media-id]')];for(const node of nodes){const m=await getMedia(node.dataset.mediaId).catch(()=>null);if(ref!==cur)return;if(!m){node.innerHTML='<div class="inline-placeholder">This media file is missing on this device.</div>';continue}const u=URL.createObjectURL(m.blob);inlineUrls.push(u);node.classList.add('inline-memory');node.setAttribute('contenteditable','false');const media=m.type.startsWith('image/')?`<img src="${u}" alt="${esc(m.name)}">`:m.type.startsWith('video/')?`<video src="${u}" controls preload="metadata"></video>`:`<audio src="${u}" controls preload="metadata"></audio>`;node.innerHTML=`<div class="memory-type">${m.type.startsWith('image/')?'✦ PHOTO':m.type.startsWith('video/')?'▶ VIDEO':'♫ VOICE NOTE'}</div>${media}<div class="memory-caption">${esc(m.name)}</div>`;node.dataset.mediaId=m.id;node.classList.toggle('audio-memory',m.type.startsWith('audio/'));node.classList.toggle('video-memory',m.type.startsWith('video/'))}}
+function rememberCursor(){const sel=window.getSelection();if(sel&&sel.rangeCount&&$('#body').contains(sel.anchorNode))savedRange=sel.getRangeAt(0).cloneRange()}
+function insertInlineMarker(id,name,type){const body=$('#body');body.focus();let range=savedRange;const sel=window.getSelection();if(range&&!body.contains(range.startContainer))range=null;if(!range){range=document.createRange();range.selectNodeContents(body);range.collapse(false)}const fig=document.createElement('figure');fig.className='inline-memory';fig.dataset.mediaId=id;fig.contentEditable='false';fig.innerHTML=`<div class="inline-placeholder">${type.startsWith('image/')?'▧ Adding photo…':type.startsWith('video/')?'▷ Adding video…':'♫ Adding voice note…'}</div>`;range.deleteContents();range.insertNode(fig);const para=document.createElement('p');para.innerHTML='<br>';fig.after(para);const next=document.createRange();next.setStart(para,0);next.collapse(true);sel.removeAllRanges();sel.addRange(next);savedRange=next.cloneRange();edit()}
+async function addFiles(files,insertInline=false){const e=cur;if(!e)return;const existing=await Promise.all(e.atts.map(id=>getMedia(id).catch(()=>null)));let p=existing.filter(m=>m&&m.type.startsWith('image/')).length,a=existing.filter(m=>m&&m.type.startsWith('audio/')).length,v=existing.filter(m=>m&&m.type.startsWith('video/')).length;for(const f of [...files]){if(!/^(image|audio|video)\//.test(f.type)){toast(`${f.name}: unsupported file type`);continue}if(f.size>MAXSIZE){toast(`${f.name}: larger than 60 MB`);continue}if(f.type.startsWith('image/')&&p>=MAX_PHOTOS){toast('Photo limit reached');continue}if(f.type.startsWith('audio/')&&a>=MAX_AUDIO){toast('Audio limit reached');continue}if(f.type.startsWith('video/')&&v>=MAX_VIDEO){toast('Video limit reached');continue}const id=uid();try{await putMedia({id,name:f.name,type:f.type,blob:f});e.atts.push(id);if(insertInline)insertInlineMarker(id,f.name,f.type);if(f.type.startsWith('image/'))p++;else if(f.type.startsWith('audio/'))a++;else v++}catch{toast('Could not save file. Browser storage may be full.')}}persist();if(cur===e){renderAtts();if(insertInline)renderInlineMedia()}}
+const fname=ext=>(cur.title||'memory').replace(/[\\/:*?"<>|\s]+/g,'_').slice(0,40)+'_'+cur.date+'.'+ext;
+function download(text,name,type){const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;a.style.display='none';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000)}
+function toMd(h){const walk=n=>{if(n.nodeType===3)return n.textContent;const t=[...n.childNodes].map(walk).join(''),tag=n.nodeName;if(tag==='B'||tag==='STRONG')return`**${t}**`;if(tag==='I'||tag==='EM')return`*${t}*`;if(tag==='H2')return`\n## ${t}\n`;if(tag==='H3')return`\n### ${t}\n`;if(tag==='LI')return`- ${t}\n`;if(tag==='BLOCKQUOTE')return`\n> ${t}\n`;if(tag==='A')return`[${t}](${n.getAttribute('href')})`;if(tag==='BR')return'\n';if(tag==='DIV'||tag==='P')return t+'\n';return t};return walk(new DOMParser().parseFromString(h,'text/html').body).replace(/\n{3,}/g,'\n\n').trim()}
+function printEntry(){commit();const w=window.open('','_blank');if(!w){toast('Allow pop-ups to print this memory');return}w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(cur.title||'Untitled')}</title><style>body{font:16px/1.7 Georgia,serif;max-width:680px;margin:2rem auto;color:#222}h1{font-weight:normal}img,video{max-width:100%}</style></head><body><h1>${esc(cur.title||'Untitled')}</h1><p><em>${esc(cur.date)} ${esc(cur.time)}</em></p><div>${cur.body}</div></body></html>`);w.document.close();w.focus();w.print()}
+const root=document.documentElement;try{root.dataset.theme=localStorage.getItem('moments.theme')||'light'}catch{root.dataset.theme='light'}
+$('#theme').onclick=()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('moments.theme',root.dataset.theme)}catch{}};
+$('#focusBtn').onclick=()=>document.body.classList.toggle('focus');
+const tick=()=>$('#clock').textContent=new Date().toLocaleString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});tick();setInterval(tick,1000);
+$('#q').oninput=renderList;$('#filter').onchange=renderList;$('#sort').onchange=renderList;$('#newBtn').onclick=()=>newEntry();$('#todayBtn').onclick=()=>{commit();const t=localDate(new Date()),e=entries.find(x=>x.date===t);e?open(e.id):newEntry()};
+['#title','#tags','#body'].forEach(s=>$(s).addEventListener('input',edit));['#date','#time'].forEach(s=>$(s).addEventListener('change',edit));
+$('#save').onclick=()=>{commit();toast('Saved successfully ✓')};
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();commit();toast('Saved ✓')}if(e.altKey&&e.key.toLowerCase()==='n'){e.preventDefault();newEntry()}if(e.key==='Escape')document.body.classList.remove('focus')});
+window.addEventListener('beforeunload',()=>{if(dirty)commit()});document.addEventListener('visibilitychange',()=>{if(document.hidden)commit()});
+$('#moods').onclick=e=>{const b=e.target.closest('button');if(!b||!cur)return;cur.mood=cur.mood===b.dataset.m?'':b.dataset.m;persist();renderMoods()};
+$('#fav').onclick=()=>{cur.fav=!cur.fav;persist();renderBtns()};$('#pin').onclick=()=>{cur.pin=!cur.pin;persist();renderBtns()};$('#dup').onclick=duplicateEntry;$('#del').onclick=deleteEntry;
+document.querySelectorAll('[data-cmd]').forEach(b=>b.onclick=()=>{$('#body').focus();document.execCommand(b.dataset.cmd,false,b.dataset.val||null);edit()});
+$('#pasteBtn').onclick=()=>{$('#pasteText').value='';if(typeof $('#pasteDialog').showModal==='function')$('#pasteDialog').showModal();else{const t=prompt('Paste text to add');if(t)insertText(t)}};
+function insertText(t){if(!t||!t.trim())return;$('#body').focus();document.execCommand('insertText',false,t);edit();toast('Text added to your memory')}
+$('#insertPaste').onclick=e=>{e.preventDefault();insertText($('#pasteText').value);$('#pasteDialog').close()};
+$('#pasteDialog').addEventListener('click',e=>{if(e.target===$('#pasteDialog'))$('#pasteDialog').close()});
+$('#prompt').onclick=()=>{$('#body').focus();document.execCommand('insertText',false,'\n'+PROMPTS[Math.random()*PROMPTS.length|0]+'\n');edit()};
+$('#chooseBtn').onclick=()=>$('#file').click();$('#file').onchange=e=>{addFiles(e.target.files);e.target.value=''};
+const inlinePicker=$('#inlineFile');
+function chooseInline(kind){rememberCursor();inlinePicker.accept=kind==='image'?'image/*':kind==='audio'?'audio/*':'video/*';inlinePicker.click()}
+$('#inlinePhoto').onclick=()=>chooseInline('image');$('#inlineAudio').onclick=()=>chooseInline('audio');$('#inlineVideo').onclick=()=>chooseInline('video');
+$('#body').addEventListener('keyup',rememberCursor);$('#body').addEventListener('mouseup',rememberCursor);$('#body').addEventListener('input',rememberCursor);
+inlinePicker.onchange=e=>{if(e.target.files?.length)addFiles(e.target.files,true);e.target.value=''};
+const dz=$('#drop');['dragenter','dragover'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add('over')}));['dragleave','drop'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove('over')}));dz.addEventListener('drop',e=>addFiles(e.dataTransfer.files));window.addEventListener('dragover',e=>e.preventDefault());window.addEventListener('drop',e=>e.preventDefault());
+$('#atts').onclick=async e=>{const id=e.target.dataset.rm;if(!id||!cur)return;cur.atts=cur.atts.filter(x=>x!==id);await delMedia(id).catch(()=>{});persist();renderAtts()};
+$('#txt').onclick=()=>{commit();download(`${cur.title||'Untitled'}\n${cur.date} ${cur.time} ${cur.mood}\nTags: ${cur.tags.join(', ')}\n\n${plain(cur.body)}\n`,fname('txt'),'text/plain')};
+$('#md').onclick=()=>{commit();download(`# ${cur.title||'Untitled'}\n\n*${cur.date} ${cur.time}* ${cur.mood}\n\nTags: ${cur.tags.map(t=>'#'+t.replace(/\s+/g,'-')).join(' ')}\n\n${toMd(cur.body)}\n`,fname('md'),'text/markdown')};
+$('#print').onclick=printEntry;
+$('#htmlBtn').onclick=()=>{commit();const doc=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${esc(cur.title||'Untitled')}</title><style>body{font:17px/1.7 Georgia,serif;max-width:760px;margin:2rem auto;padding:0 1rem;color:#30261f}h1{font-weight:500}img{max-width:100%;border-radius:12px}</style></head><body><h1>${esc(cur.title||'Untitled')}</h1><p>${esc(cur.date)} ${esc(cur.time)} ${esc(cur.mood||'')}</p><p>Tags: ${esc(cur.tags.join(', '))}</p><article>${cur.body}</article></body></html>`;download(doc,fname('html'),'text/html')};
+// A portable JSON backup includes every diary entry and metadata.
+$('#zipBtn').onclick=()=>{commit();download(JSON.stringify({app:'Moments',version:1,exported:new Date().toISOString(),entries},null,2),`moments-backup-${localDate(new Date())}.json`,'application/json');toast('Diary backup downloaded ✓')};
+dbp.catch(()=>toast('Media storage is unavailable in this browser'));
+entries.length?open(latest().id):newEntry();
+</script>
+</body>
+</html>
